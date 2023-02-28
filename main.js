@@ -13,7 +13,7 @@ const DB = {
 	],
 	users: [
 		{
-			id: '1',
+			id: '11',
 			levelId: '3',
 			name: 'Andriy Petrash',
 			skills: ['1', '2', '3', '4', '5'],
@@ -31,43 +31,21 @@ const DB = {
 
 
 function findUserById(id) {
-	let level = DB.levels
-	let user = DB.users
-	let skill = DB.skills
-	let levelNumb
-	let skil 
-	let info = {}
-
-	if(!user[id-1]){ 
-		return 'Missing' 
+	const user = DB.users.find(user => user.id === id);
+	if (!user) {
+	  return 'Missing!';
 	}
-
-
-
-	user.forEach(function(item){
-		if(item.id == id){
-			levelNumb = item.levelId
-			info.name = item.name
-			skil = item.skills
-		}
-		return item
+	const level = DB.levels.find(level => level.id === user.levelId)
+	const skills = user.skills.map(skillId => {
+		const skill = DB.skills.find(skill => skill.id === skillId);
+		return skill.name;
 	})
-
-	level.forEach(function(item){
-		if(item.id == levelNumb){
-			info.position = item.name;
-		}
-	})
-	info.skills = []
-	skil.forEach(function(item){
-		skill.find(function(items){
-			if(item == items.id){
-				info.skills.push(items.name)
-
-			}
-		})
-	})
+	const info = {
+		name: user.name,
+		position: level.name,
+		skills:skills
+	}
 	return info
 }
-let h = findUserById(1)
+let h = findUserById('111')
 console.log(h)
